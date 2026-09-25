@@ -150,12 +150,77 @@ function showToast(message, duration = 2000) {
     toast.className = "app-toast";
     document.body.appendChild(toast);
   }
+  toast.classList.remove("toast-loading", "toast-success", "toast-error");
   toast.textContent = message;
   toast.classList.add("show");
   clearTimeout(window.__toastTimer);
   window.__toastTimer = setTimeout(() => {
     toast.classList.remove("show");
   }, duration);
+}
+
+/* ==================== TOAST VARIANTS ==================== */
+function showLoadingToast(message = "Memproses...") {
+  let toast = document.getElementById("app-toast");
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.id = "app-toast";
+    toast.className = "app-toast";
+    document.body.appendChild(toast);
+  }
+  toast.classList.remove("toast-success", "toast-error");
+  toast.innerHTML = `
+    <div style="display:flex;align-items:center;gap:8px;">
+      <div class="toast-spinner"></div>
+      <span>${message}</span>
+    </div>
+  `;
+  toast.classList.add("show", "toast-loading");
+  clearTimeout(window.__toastTimer);
+}
+
+function showSuccessToast(message = "Berhasil!") {
+  let toast = document.getElementById("app-toast");
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.id = "app-toast";
+    toast.className = "app-toast";
+    document.body.appendChild(toast);
+  }
+  toast.classList.remove("toast-loading", "toast-error");
+  toast.innerHTML = `
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span style="color:#10b981;font-size:16px;font-weight:700;">✓</span>
+      <span>${message}</span>
+    </div>
+  `;
+  toast.classList.add("show", "toast-success");
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer = setTimeout(() => {
+    toast.classList.remove("show", "toast-success");
+  }, 2500);
+}
+
+function showErrorToast(message = "Terjadi kesalahan") {
+  let toast = document.getElementById("app-toast");
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.id = "app-toast";
+    toast.className = "app-toast";
+    document.body.appendChild(toast);
+  }
+  toast.classList.remove("toast-loading", "toast-success");
+  toast.innerHTML = `
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span style="color:#ef4444;font-size:16px;font-weight:700;">✕</span>
+      <span>${message}</span>
+    </div>
+  `;
+  toast.classList.add("show", "toast-error");
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer = setTimeout(() => {
+    toast.classList.remove("show", "toast-error");
+  }, 3000);
 }
 
 /* ==================== ICONS ==================== */
